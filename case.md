@@ -7,11 +7,13 @@ Case scheme:
 ```mermaid
 flowchart TD;
     dist([Distributions])-->synth([Synthesised data]);
-    logic([Business logic])-->synth[Synthesised data];
     corr([Correlation matrix])-->synth([Synthesised data]);
+    logic([Business logic])-->synth[Synthesised data];
     dict([Data dictionary])-->synth([Synthesised data]);
     synth[Synthesised data]-->feat[Feature engineering];
+    synth[Synthesised data]-->bal[Deal with imbalanced data];
     feat[Feature engineering]-->prop[Propensity models];
+    bal[Deal with imbalanced data]-->prop[Propensity models];
     hyper[Hyperparametric optimization]-->prop[Propensity models];
     prop[Propensity models]-->expl[Explainability models];
 ```
