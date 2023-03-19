@@ -1,4 +1,4 @@
-# '''Case description'''
+**1. Case description**
 
 
 
@@ -14,10 +14,10 @@ flowchart TD;
     prop[Propensity models]-->expl[Explainability models];
 ```
 
-# '''Variables distributions'''
+**2.1 Variables distributions**
 
 
-# '''Correlation matrix'''
+**2.2 Correlation matrix**
 
 ```python
 data = {
@@ -34,7 +34,7 @@ data = {
 ```
 
 
-# '''Data Dictionary'''
+**2.3 Data Dictionary**
 
 | Number | Factor | Code | Variable type | Possible values | 
 | --- | --- | --- | --- | --- | 
