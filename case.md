@@ -8,6 +8,8 @@ Case scheme:
 flowchart TD;
     dist([Distributions])-->synth([Synthesised data]);
     logic([Business logic])-->synth[Synthesised data];
+    corr([Correlation matrix])-->synth([Synthesised data]);
+    dict([Data dictionary])-->synth([Synthesised data]);
     synth[Synthesised data]-->feat[Feature engineering];
     feat[Feature engineering]-->prop[Propensity models];
     hyper[Hyperparametric optimization]-->prop[Propensity models];
