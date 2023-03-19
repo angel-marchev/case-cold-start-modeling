@@ -24,6 +24,11 @@ data = {
 }
 ```
 
+ | heading 1 | heading 2 | heading 3
+ | --- | --- | ---
+ | abc | bcd | cde
+ | def | efg | fgh
+
 
 | Number | Factor | Code | Variable type | Possible values | 
 | --- | --- | --- | --- | --- | 
