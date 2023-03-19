@@ -1,3 +1,7 @@
+# '''Case description'''
+
+
+
 Case scheme:
 
 ```mermaid
@@ -9,6 +13,11 @@ flowchart TD;
     hyper[Hyperparametric optimization]-->prop[Propensity models];
     prop[Propensity models]-->expl[Explainability models];
 ```
+
+# '''Variables distributions'''
+
+
+# '''Correlation matrix'''
 
 ```python
 data = {
@@ -24,11 +33,8 @@ data = {
 }
 ```
 
- | heading 1 | heading 2 | heading 3
- | --- | --- | ---
- | abc | bcd | cde
- | def | efg | fgh
 
+# '''Data Dictionary'''
 
 | Number | Factor | Code | Variable type | Possible values | 
 | --- | --- | --- | --- | --- | 
