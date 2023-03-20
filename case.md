@@ -1,6 +1,13 @@
 **1. Case description**
 
 
+**1.1. Introduction**
+This is an open-ended type of case study, where you are supposed to go through the process and not having any critical mteric values to crosschech against. So the results are going to be open for disscusions as long as you have gone though the whole case and publish it as required by the expected results section. On the other hand you could enrich the cae with own additions - for example your own business rules, other publicly available data sets, etc., as long as you publish your additions (or the way to obtain them) in the case solution. 
+
+The case is made as a teamwork assignment as it requires diverse set of skills and several tens of hours to be solved. 
+
+
+**1.2 Case phases**
 
 Case scheme:
 
@@ -18,13 +25,37 @@ flowchart TD;
     prop[Propensity models]-->expl[Explainability models];
 ```
 
-**2.1 Variables distributions**
+
+*Data synthesis*
+
+Using the provided data in form of feature distributions, correlation matrix among numerical variables, business rules, and data dictionary (for referense purposes) you must synthesise datta set of at least 30000 records and at least the features described in the data dictionary. You could encode the data however you want, but have to include the description in the soution. You are most probably going to use various methods when sythesising the dataset, but you must conform (within reasonable deviations) to the limitations given by the raw data:
+-  features distributions
+-  corrlation matrix 
+-  business rules
+-  data dictionary 
+
+
+*Feature engineering*
+
+
+
+
+**1.3. Expected results**
+
+The format of the solution has to be a single ".ipynb" file, with all documentation, explanations, needed outputs, visualizations, etc. included in their respectable places. You could use any programing language which runs in this environment to solve the case.
+
+
+**2. Case data**
+
+**2.1 Features distributions**
 
 
 **2.2 Correlation matrix**
 
+The following data is the Pearson correlation matrix among the numerical features.
+
 ```python
-data = {
+corr = {
     'features': ['age_sim', 'ind_risk_sim', 'income_sim', 'pers_exp_sim', 'house_exp_sim', 'taxes_sim', 'transp_telecom_sim', 'hobby_sim'],
     'age_sim': [1, -0.00665947056405372, 0.00291644965339247, 0.0107779942638097, 0.00698674581731255, 0.00729153655132963, 0.0099866509330216, 0.00931630696561133],
     'ind_risk_sim': [-0.00665947056405372, 1, 0.0039918072709289, 0.00806259039194059, 0.00457023635440603, 0.0061985340641631, 0.00768699810849585, -0.00332322616613201],
@@ -37,8 +68,11 @@ data = {
 }
 ```
 
+**2.3 Business rules**
 
-**2.3 Data Dictionary**
+
+
+**2.4 Data Dictionary**
 
 | Number | Factor | Code | Variable type | Possible values | 
 | --- | --- | --- | --- | --- | 
@@ -80,7 +114,7 @@ data = {
 | 36 | Average number of bank transactions | bk_oprat | Proportional | Until 7; From 8 to 10; From 11 to 13; From 14 to 18 From 19 |
 | 37 | Debit card | bk_dc | Proportional | Under one; One; Two; Three |
 | 38 | Credit card | bk_cc | Binary | YES; NO |
-| 39 | Current account in BGN | bk_acc | Binary | YES; NO |
+| 39 | Bank account | bk_acc | Binary | YES; NO |
 | 40 | Property insurance | ins_prop | Binary | YES; NO |
 | 41 | Insurance - life | ins_life | Binary | YES; NO |
 | 42 | Insurance - Motor Vehicle (Casco) | ins_casco | Binary | YES; NO |
@@ -90,3 +124,7 @@ data = {
 | 46 | Mortgage | mortgage | Binary | YES; NO |
 | 47 | Car lease/loan | car_leas | Binary | YES; NO |
 | 48 | Additional pension insurance - 3rd pillar | pens_ins | Binary | YES; NO |
+| 50 | Overdraft - applied | overdraft_app | Binary | YES; NO |
+| 51 | Consumer credit - applied | cons_cred_app | Binary | YES; NO |
+| 52 | Mortgage loan - applied | mortgage_app | Binary | YES; NO |
+| 53 | Credit card - applied | bk_cc_app | Binary | YES; NO |
