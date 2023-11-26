@@ -103,7 +103,14 @@ subgraph excel_data_prep["2. Excel Data Prep"]
     style field_test fill:#f96,stroke-dasharray: 5 5; 
 end
 
-subgraph R_forecasting["3. R Forecasting"]
+subgraph R_modeling_output["3. Modeling Outputs"]
+    best_model([best_model.rds]);
+    binnings([binnings.rds]);
+    mean_dev([mean_dev.rds]);
+    levels_dict([levels_dict.rds]);
+end
+
+subgraph R_forecasting["4. R Forecasting"]
     forecasting_table([FORECASTING_DATA])-->r_forecast[code_forecasting.R];
     excl_list([exluded_list.csv])-->r_forecast[code_forecasting.R];
     field_test([y_true.csv])-->r_forecast[code_forecasting.R];
@@ -118,7 +125,7 @@ subgraph R_forecasting["3. R Forecasting"]
     r_forecast[code_forecasting.R]-->output13([data_forecast_after_eval.rds]);
 end
 
-subgraph R_output["4. R Forecasting Output"]
+subgraph R_output["5. R Forecasting Output"]
     r_forecast[code_forecasting.R]-->output_list([list_to_send.csv]);
     r_forecast[code_forecasting.R]-->explained_list([output.csv]);
     r_forecast[code_forecasting.R]-->field_test_analysis(["Field Test Analysis"]);
