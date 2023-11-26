@@ -121,7 +121,7 @@ end
 subgraph R_output["4. R Forecasting Output"]
     r_forecast[code_forecasting.R]-->output_list([list_to_send.csv]);
     r_forecast[code_forecasting.R]-->explained_list([output.csv]);
-    r_forecast[code_forecasting.R]-->field_test_analysis(["Field Test Analysis]);
+    r_forecast[code_forecasting.R]-->field_test_analysis(["Field Test Analysis"]);
     style field_test_analysis fill:#f66,stroke-dasharray: 5 5;
     class output_list,explained_list ToBeUsed;
     classDef ToBeUsed fill:#f66;
