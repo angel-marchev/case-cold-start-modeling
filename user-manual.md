@@ -3,13 +3,16 @@ flowchart LR;
 subgraph legend["Legend"];
     prepared(["To Be Prapared"]);
     style prepared fill:#f96;
+    prepared_cond(["To Be Prapared Conditionally"]);
+    style prepared_cond fill:#f96,stroke-dasharray: 5 5;
     executed["To Be Executed"];
     working(["Working files"]);
     output(["Outputs"]);
     style output fill:#f66;
+    output_cond(["Conditional Outputs"]);
+    style output_cond fill:#f66,stroke-dasharray: 5 5;
 end
 ```
-
 
 ```mermaid
 ---
@@ -73,15 +76,13 @@ subgraph R_modeling_output["5. R Modeling Output"];
 end
 ```
 
-
-
-
 ```mermaid
 ---
 title: Forecasting workflow
 ---
 flowchart LR;
-  subgraph sql_forecasting["SQL Forecating"]
+
+subgraph sql_forecasting["1. SQL Data Prep"]
     input_data([VVF_DFMAIN_LAG_S])-->sql_forecast[FORECASTING_DATA.sql];
     dekl92([NEW_MODEL_D92])-->sql_forecast[FORECASTING_DATA.sql];
     gfo([NEW_MODEL_NSI])-->sql_forecast[FORECASTING_DATA.sql];
@@ -92,36 +93,38 @@ flowchart LR;
     flag_promeni([vvf_sob_pr_upr])-->sql_forecast[FORECASTING_DATA.sql];
     sql_forecast[FORECASTING_DATA.sql]-->forecasting_table([FORECASTING_DATA]);
     class input_data,dekl92,gfo,flag_predst,flag_sobst,flag_uprav,flag_sobst_risk,flag_promeni ToBePrapared;
-    classDef ToBePrapared fill:#f96;  
-   
-  end
-subgraph R_forecasting["R Forecasting"]
-    direction LR
+    classDef ToBePrapared fill:#f96;
+end
+
+subgraph excel_data_prep["2. Excel Data Prep"]
+    excl_list([exluded_list.csv]);
+    style 3excl_list fill:#f96;
+    field_test([y_true.csv]);
+    style field_test fill:#f96,stroke-dasharray: 5 5; 
+end
+
+subgraph R_forecasting["3. R Forecasting"]
     forecasting_table([FORECASTING_DATA])-->r_forecast[code_forecasting.R];
+    excl_list([exluded_list.csv])-->r_forecast[code_forecasting.R];
+    field_test([y_true.csv])-->r_forecast[code_forecasting.R];
+    best_model([best_model.rds])-->r_forecast[code_forecasting.R];
+    binnings([binnings.rds])-->r_forecast[code_forecasting.R];
+    mean_dev([mean_dev.rds])-->r_forecast[code_forecasting.R];
+    levels_dict([levels_dict.rds])-->r_forecast[code_forecasting.R];
     r_forecast[code_forecasting.R]-->output9([data_input_forecast.rds]);
     r_forecast[code_forecasting.R]-->output10([data_input_forecast_after_prep.rds]);
     r_forecast[code_forecasting.R]-->output11([data_forecast_after_predict.rds]);
     r_forecast[code_forecasting.R]-->output12([output_list.rds]);
     r_forecast[code_forecasting.R]-->output13([data_forecast_after_eval.rds]);
-    best_model([best_model.rds])-->r_forecast[code_forecasting.R];
-    binnings([binnings.rds])-->r_forecast[code_forecasting.R];
-    mean_dev([mean_dev.rds])-->r_forecast[code_forecasting.R];
-    levels_dict([levels_dict.rds])-->r_forecast[code_forecasting.R];
-    excl_list([exluded_list.csv])-->r_forecast[code_forecasting.R];
+end
+
+subgraph R_output["4. R Forecasting Output"]
     r_forecast[code_forecasting.R]-->output_list([list_to_send.csv]);
     r_forecast[code_forecasting.R]-->explained_list([output.csv]);
-    field_test([y_true.csv])-->r_forecast[code_forecasting.R];
-    style field_test fill:#f96,stroke-dasharray: 5 5; 
-
-    class var_list,legal_form,zreg_reason,zdreg_reason,kid_2008,sect,taxofficeno,fn_list,user_input_model,excl_list ToBePrapared;
-    classDef ToBePrapared fill:#f96;
-
+    r_forecast[code_forecasting.R]-->field_test(["Field Test Analysis]);
+    style field_test fill:#f66,stroke-dasharray: 5 5;
     class output_list,explained_list ToBeUsed;
     classDef ToBeUsed fill:#f66;
 end
-      
-  
-
-
 ```
 
