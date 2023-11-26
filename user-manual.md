@@ -1,5 +1,5 @@
 ```mermaid
-flowchart LR;
+flowchart TD;
 subgraph legend["Legend"];
     prepared(["To Be Prapared"]);
     style prepared fill:#f96;
