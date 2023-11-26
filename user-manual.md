@@ -3,11 +3,18 @@
 title: Modeling workflow
 ---
 flowchart LR;
-  subgraph sql_modeling["SQL Modeling"]
+
+subgraph sql_stratified["SQL Stratified Sample"]
     direction LR
     input_data([VVF_DFMAIN_LAG_S])-->strata[DF_STRATA.sql];
     strata[DF_STRATA.sql]-->strata_table([DFMAIN_NEW_MODEL_UNIQUE]);
     strata_table([DFMAIN_NEW_MODEL_UNIQUE])-->modeling[MODELING_DATA.sql];
+    class input_data,dekl92,gfo,flag_predst,flag_sobst,flag_uprav,flag_sobst_risk,flag_promeni ToBePrapared;
+    classDef ToBePrapared fill:#f96;  
+end
+
+subgraph sql_modeling["SQL Data Merge"]
+    direction LR
     dekl92([NEW_MODEL_D92])-->modeling[MODELING_DATA.sql];
     gfo([NEW_MODEL_NSI])-->modeling[MODELING_DATA.sql];
     flag_predst([vvf_prom_predst])-->modeling[MODELING_DATA.sql];
@@ -18,23 +25,9 @@ flowchart LR;
     modeling[MODELING_DATA.sql]-->modeling_table([MODELING_DATA]);
     class input_data,dekl92,gfo,flag_predst,flag_sobst,flag_uprav,flag_sobst_risk,flag_promeni ToBePrapared;
     classDef ToBePrapared fill:#f96;  
-   
-  end
-  subgraph R_modeling["R Modeling"]
-    direction LR
-    modeling_table([MODELING_DATA])-->r_model[code_modeling.R];
-    r_model[code_modeling.R]-->output1([DF_SAMPLE_JOIN.rds]);
-    r_model[code_modeling.R]-->output2([DF_SAMPLE_JOIN2.rds]);
-    r_model[code_modeling.R]-->output3([DF_offset.rds]);
-    r_model[code_modeling.R]-->output4([DF_selected.rds]);
-    r_model[code_modeling.R]-->output5([y.rds]);
-    r_model[code_modeling.R]-->output6([models.rds]);
-    r_model[code_modeling.R]-->best_model([best_model.rds]);
-    r_model[code_modeling.R]-->output7([best_models.rds]);
-    r_model[code_modeling.R]-->binnings([binnings.rds]);
-    r_model[code_modeling.R]-->mean_dev([mean_dev.rds]);
-    r_model[code_modeling.R]-->levels_dict([levels_dict.rds]);
+end
 
+subgraph excel_input["Excel Configuration"]
     var_list([var_list])-->user_input_model([factor_input.xlsx]);
     legal_form([LEGAL_FORM])-->user_input_model([factor_input.xlsx]);
     zreg_reason([ZREG_REASON])-->user_input_model([factor_input.xlsx]);
@@ -43,20 +36,31 @@ flowchart LR;
     sect([SECT])-->user_input_model([factor_input.xlsx]);
     taxofficeno([TAXOFFICENO])-->user_input_model([factor_input.xlsx]);
     fn_list([FN_list])-->user_input_model([factor_input.xlsx]);
-    user_input_model([factor_input.xlsx])-->r_model[code_modeling.R];
-
     class var_list,legal_form,zreg_reason,zdreg_reason,kid_2008,sect,taxofficeno,fn_list,user_input_model ToBePrapared;
     classDef ToBePrapared fill:#f96;
+end
 
+subgraph R_modeling["R Modeling"]
+    direction LR
+    modeling_table([MODELING_DATA])-->r_model[code_modeling.R];
+    user_input_model([factor_input.xlsx])-->r_model[code_modeling.R];
+    r_model[code_modeling.R]-->output1([DF_SAMPLE_JOIN.rds]);
+    r_model[code_modeling.R]-->output2([DF_SAMPLE_JOIN2.rds]);
+    r_model[code_modeling.R]-->output3([DF_offset.rds]);
+    r_model[code_modeling.R]-->output4([DF_selected.rds]);
+    r_model[code_modeling.R]-->output5([y.rds]);
+    r_model[code_modeling.R]-->output6([models.rds]);
+    r_model[code_modeling.R]-->output7([best_models.rds]);
+end
+
+subgraph R_modeling_output["R Modeling Output"]
+    r_model[code_modeling.R]-->best_model([best_model.rds]);
+    r_model[code_modeling.R]-->binnings([binnings.rds]);
+    r_model[code_modeling.R]-->mean_dev([mean_dev.rds]);
+    r_model[code_modeling.R]-->levels_dict([levels_dict.rds]);
     class best_model,binnings,mean_dev,levels_dict ToBeUsed;
     classDef ToBeUsed fill:#f66;
-
-      
 end
-    
-  
-
-
 ```
 
 
