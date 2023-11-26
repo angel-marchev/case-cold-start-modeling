@@ -5,16 +5,14 @@ title: Modeling workflow
 flowchart LR;
 
 subgraph sql_stratified["SQL Stratified Sample"]
-    direction LR
     input_data([VVF_DFMAIN_LAG_S])-->strata[DF_STRATA.sql];
-    strata[DF_STRATA.sql]-->strata_table([DFMAIN_NEW_MODEL_UNIQUE]);
-    strata_table([DFMAIN_NEW_MODEL_UNIQUE])-->modeling[MODELING_DATA.sql];
     class input_data,dekl92,gfo,flag_predst,flag_sobst,flag_uprav,flag_sobst_risk,flag_promeni ToBePrapared;
     classDef ToBePrapared fill:#f96;  
 end
 
 subgraph sql_modeling["SQL Data Merge"]
-    direction LR
+    strata[DF_STRATA.sql]-->strata_table([DFMAIN_NEW_MODEL_UNIQUE]);
+    strata_table([DFMAIN_NEW_MODEL_UNIQUE])-->modeling[MODELING_DATA.sql];
     dekl92([NEW_MODEL_D92])-->modeling[MODELING_DATA.sql];
     gfo([NEW_MODEL_NSI])-->modeling[MODELING_DATA.sql];
     flag_predst([vvf_prom_predst])-->modeling[MODELING_DATA.sql];
@@ -41,7 +39,6 @@ subgraph excel_input["Excel Configuration"]
 end
 
 subgraph R_modeling["R Modeling"]
-    direction LR
     modeling_table([MODELING_DATA])-->r_model[code_modeling.R];
     user_input_model([factor_input.xlsx])-->r_model[code_modeling.R];
     r_model[code_modeling.R]-->output1([DF_SAMPLE_JOIN.rds]);
