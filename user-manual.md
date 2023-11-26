@@ -1,16 +1,29 @@
 ```mermaid
+flowchart LR;
+subgraph legend["Legend"];
+    prepared(["To Be Prapared"]);
+    style prepared fill:#f96;
+    executed["To Be Executed"];
+    working(["Working files"]);
+    output(["Outputs"]);
+    style output fill:#f66;
+end
+```
+
+
+```mermaid
 ---
 title: Modeling workflow
 ---
 flowchart LR;
 
-subgraph sql_stratified["SQL Stratified Sample"]
+subgraph sql_stratified["1. SQL Stratified Sample"];
     input_data([VVF_DFMAIN_LAG_S])-->strata[DF_STRATA.sql];
     class input_data,dekl92,gfo,flag_predst,flag_sobst,flag_uprav,flag_sobst_risk,flag_promeni ToBePrapared;
     classDef ToBePrapared fill:#f96;  
 end
 
-subgraph sql_modeling["SQL Data Merge"]
+subgraph sql_modeling["2. SQL Data Merge"];
     strata[DF_STRATA.sql]-->strata_table([DFMAIN_NEW_MODEL_UNIQUE]);
     strata_table([DFMAIN_NEW_MODEL_UNIQUE])-->modeling[MODELING_DATA.sql];
     dekl92([NEW_MODEL_D92])-->modeling[MODELING_DATA.sql];
@@ -25,7 +38,7 @@ subgraph sql_modeling["SQL Data Merge"]
     classDef ToBePrapared fill:#f96;  
 end
 
-subgraph excel_input["Excel Configuration"]
+subgraph excel_input["3. Excel Configuration"];
     var_list([var_list])-->user_input_model([factor_input.xlsx]);
     legal_form([LEGAL_FORM])-->user_input_model([factor_input.xlsx]);
     zreg_reason([ZREG_REASON])-->user_input_model([factor_input.xlsx]);
@@ -38,7 +51,7 @@ subgraph excel_input["Excel Configuration"]
     classDef ToBePrapared fill:#f96;
 end
 
-subgraph R_modeling["R Modeling"]
+subgraph R_modeling["4. R Modeling"];
     modeling_table([MODELING_DATA])-->r_model[code_modeling.R];
     user_input_model([factor_input.xlsx])-->r_model[code_modeling.R];
     r_model[code_modeling.R]-->output1([DF_SAMPLE_JOIN.rds]);
@@ -50,7 +63,7 @@ subgraph R_modeling["R Modeling"]
     r_model[code_modeling.R]-->output7([best_models.rds]);
 end
 
-subgraph R_modeling_output["R Modeling Output"]
+subgraph R_modeling_output["5. R Modeling Output"];
     r_model[code_modeling.R]-->best_model([best_model.rds]);
     r_model[code_modeling.R]-->binnings([binnings.rds]);
     r_model[code_modeling.R]-->mean_dev([mean_dev.rds]);
@@ -69,7 +82,6 @@ title: Forecasting workflow
 ---
 flowchart LR;
   subgraph sql_forecasting["SQL Forecating"]
-    direction LR
     input_data([VVF_DFMAIN_LAG_S])-->sql_forecast[FORECASTING_DATA.sql];
     dekl92([NEW_MODEL_D92])-->sql_forecast[FORECASTING_DATA.sql];
     gfo([NEW_MODEL_NSI])-->sql_forecast[FORECASTING_DATA.sql];
@@ -99,7 +111,7 @@ subgraph R_forecasting["R Forecasting"]
     r_forecast[code_forecasting.R]-->output_list([list_to_send.csv]);
     r_forecast[code_forecasting.R]-->explained_list([output.csv]);
     field_test([y_true.csv])-->r_forecast[code_forecasting.R];
-    style field_test fill:#f96; 
+    style field_test fill:#f96,stroke-dasharray: 5 5; 
 
     class var_list,legal_form,zreg_reason,zdreg_reason,kid_2008,sect,taxofficeno,fn_list,user_input_model,excl_list ToBePrapared;
     classDef ToBePrapared fill:#f96;
