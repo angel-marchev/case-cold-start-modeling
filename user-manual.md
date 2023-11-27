@@ -1,6 +1,7 @@
 ```mermaid
 flowchart TD;
-subgraph legend["Legend"];
+subgraph legend["Legend"]
+    direction LR;
     prepared(["To Be Prapared"]);
     style prepared fill:#f96;
     prepared_cond(["To Be Prapared Conditionally"]);
